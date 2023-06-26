@@ -3,6 +3,11 @@ from django.db import models
 
 
 class Profile(models.Model):
+    """
+    This model has extra information about user which is not included in
+    Django's default model.
+    It has many-to-one relationship with user model.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
     user_id = models.IntegerField()
     bio = models.TextField(blank=True)
