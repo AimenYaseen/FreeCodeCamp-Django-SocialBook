@@ -12,4 +12,7 @@ def signup(request):
     """
     renders signup template
     """
-    return render(request, 'signup.html')
+    if request.method == 'POST':
+        pass
+    else:
+        return render(request, 'signup.html')
