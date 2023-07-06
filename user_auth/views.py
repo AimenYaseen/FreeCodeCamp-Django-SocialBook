@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, HttpResponseRedirect
+from django.urls import reverse
+
+from user_auth.services import UserAuthServices
 
 
 def index(request):
@@ -12,7 +16,12 @@ def signup(request):
     """
     renders signup template
     """
-    if request.method == 'POST':
-        pass
-    else:
+    if not request.method == 'POST':
         return render(request, 'signup.html')
+
+    try:
+        UserAuthServices.signup_service(request)
+        return HttpResponseRedirect(reverse('home'))
+    except Exception as ex:
+        messages.error(request, ex)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
