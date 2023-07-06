@@ -12,3 +12,10 @@ class UserAuthValidators:
             UnicodeUsernameValidator(value)
         except ValidationError as exc:
             raise ValidationError(str(exc))
+
+    @staticmethod
+    def validate_password(value):
+        try:
+            validate_password(value)
+        except ValidationError as exc:
+            raise ValidationError(str(exc))
