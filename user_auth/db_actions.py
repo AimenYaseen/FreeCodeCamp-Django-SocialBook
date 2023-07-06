@@ -13,3 +13,11 @@ class UserDbActions:
         """
         if User.objects.filter(**kwargs).exists():
             raise BadRequest(f'User with this {field} "{kwargs.get(field)}" already Exists')
+
+    @staticmethod
+    def create_user(data):
+        """
+        create user instance with the following data
+        """
+        user = User.objects.create_user(**data)
+        Profile.objects.create(user=user, token=user.id)
