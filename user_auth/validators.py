@@ -19,3 +19,23 @@ class UserAuthValidators:
             validate_password(value)
         except ValidationError as exc:
             raise ValidationError(str(exc))
+
+    @staticmethod
+    def validate_signup_input(data):
+        email = data.get('email').strip()
+        username = data.get('username').strip()
+        password = data.get('password').strip()
+
+        # validate username and email
+        UserDbActions.check_user('username', username=username)
+        UserDbActions.check_user('email', email=email)
+
+        # validate username and password
+        UserAuthValidators.validate_username(username)
+        UserAuthValidators.validate_password(password)
+
+        return {
+            'email': email,
+            'password': password,
+            'username': username,
+        }
