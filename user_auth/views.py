@@ -15,6 +15,7 @@ def index(request):
 def signup(request):
     """
     renders signup template
+    handles signup POST request
     """
     if not request.method == 'POST':
         return render(request, 'signup.html')
