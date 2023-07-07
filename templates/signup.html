@@ -20,6 +20,7 @@
             color: red;
         }
 
+
     </style>
 </head>
 
@@ -48,11 +49,11 @@
             <!-- messages -->
             <div>
                 {% for message in messages %}
-                <h5 id="error_message">{{message}}</h5>
+                <h5 id="errorMessage">{{message}}</h5>
                 {% endfor %}
             </div>
 
-            <form action="" method="POST">
+            <form action="{% url 'signup' %}" method="POST" onsubmit="return validateForm()">
                 {% csrf_token %}
                 <input type="text" name="username" id="username" placeholder="Username"
                        class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" required>
@@ -62,6 +63,10 @@
                        class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" required>
                 <input type="password" name="password2" id="password2" placeholder="Confirm Password"
                        class="bg-gray-200 mb-2 shadow-none  dark:bg-gray-800" required>
+
+                <h5 id="formErrorMessage"></h5>
+                <br>
+
                 <button type="submit"
                         class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">
                     Signup
@@ -87,6 +92,43 @@
         </div>
     </div>
 </div>
+
+<script>
+        function printError(elementId, hintMessage) {
+            document.getElementById(elementId).innerHTML = hintMessage;
+        }
+
+        // Defining a function to validate form
+        function validateForm() {
+            // Retrieving the values of form elements
+            var password = document.getElementById('password').value
+            var password2 = document.getElementById('password2').value
+
+            if (password !== password2) {
+                printError("formErrorMessage", "Password and Confirm Password should be matched!");
+                return false;
+            }
+
+            if (password.length < 8) {
+                printError("formErrorMessage", "Password should be at least 8 characters long!");
+                return false;
+            }
+        };
+
+        // clear errors
+        document.getElementById('username').addEventListener('keypress', function (e){
+            printError("formErrorMessage", "");
+        });
+        document.getElementById('email').addEventListener('keypress', function (e){
+            printError("formErrorMessage", "");
+        });
+        document.getElementById('password').addEventListener('keypress', function (e){
+            printError("formErrorMessage", "");
+        });
+        document.getElementById('password2').addEventListener('keypress', function (e){
+            printError("formErrorMessage", "");
+        });
+</script>
 
 <!--<script>
 
